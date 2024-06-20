@@ -1,0 +1,35 @@
+import csv
+from datetime import date
+
+def guardar_asistencia(nombre, asistencia):
+    fecha_actual = date.today().strftime('%d-%m-%y')
+    with open('asistencia.csv', 'w', newline='') as archivo_csv:
+        writer = csv.writer(archivo_csv)
+        writer.writerow([fecha_actual, nombre, asistencia])
+    print(f"Asistencia de {nombre} guardada para el {fecha_actual}.")
+
+def buscar_asistencia(nombre, fecha):
+    try:
+        with open('asistencia.csv', 'r') as archivo_csv:
+            reader = csv.reader(archivo_csv)
+            for row in reader:
+                if row[0] == fecha and row[1] == nombre:
+                    print(f"{nombre} estuvo {'presente' if row[2] == 'True' else 'ausente'} el {fecha}.")
+                    return
+            print(f"No se encontro asistencia para {nombre} el {fecha}.")
+    except FileNotFoundError:
+        print("No hay registros de asistencia todavia.")
+
+
+while True:
+    opcion = input("¿Deseas guardar asistencia (G) o buscar asistencia (B)? ").lower()
+    if opcion == 'g':
+        nombre = input("Nombre del estudiante: ")
+        asistencia = input("¿Estuvo presente? (Si/No): ").lower() == 'si'
+        guardar_asistencia(nombre, asistencia)
+    elif opcion == 'b':
+        nombre = input("Nombre del estudiante: ")
+        fecha = input("Fecha (DD-MM-YY): ")
+        buscar_asistencia(nombre, fecha)
+    else:
+        print("Opcion no valida. Intentalo de nuevo.")
