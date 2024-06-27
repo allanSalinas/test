@@ -14,3 +14,6 @@ with open('nuevo_archivo.csv', 'w', newline='') as archivo_csv:
         ['María', 30, 'Bogotá'],
         ['Carlos', 22, 'Madrid']
     ])
+
+
+print("wena")
